@@ -1,72 +1,109 @@
 # 💰 Crypto Portfolio Tracker - Graduation Project
 
-A simple cryptocurrency portfolio management application built with Python and Streamlit.
+A cryptocurrency portfolio management application built with Python and Streamlit featuring risk analysis, performance tracking, and Bitcoin benchmark comparison.
 
 ## What This App Does
 
-1. **Track Your Crypto**: Add cryptocurrencies and see their current value
-2. **Risk Assessment**: Shows if each coin is Low, Medium, or High risk based on 24-hour price changes
-3. **Bitcoin Comparison**: See if your portfolio is doing better or worse than Bitcoin
+1. **Track Your Crypto**: Add buy/sell transactions and see current portfolio value
+2. **Risk Assessment**: Portfolio risk scoring using weighted volatility analysis and Value at Risk (VaR)
+3. **Bitcoin Benchmark**: Compare your portfolio performance against Bitcoin
+4. **Analytics Dashboard**: Interactive charts for asset allocation, profit/loss, and price history
+5. **Data Export**: Download portfolio and transaction data as CSV
+
+## Project Structure
+
+```
+crypto_tracker/
+├── app.py              # Main application (UI and layout)
+├── auth.py             # User authentication (login/signup)
+├── api_handler.py      # CoinGecko API integration and caching
+├── portfolio.py        # Portfolio and transaction management
+├── risk_analysis.py    # Risk calculations (scores, VaR, diversification)
+├── analytics.py        # Charts and visualizations (Plotly)
+├── export_handler.py   # CSV and report export
+├── requirements.txt    # Python dependencies
+├── README.md           # This file
+├── LEARNING_NOTES.md   # Code explanations for studying
+├── GITHUB_SETUP.md     # How to push to GitHub
+└── .gitignore          # Files to ignore in Git
+```
 
 ## How to Run
 
 ### Step 1: Install Python
-Make sure you have Python 3.8 or higher installed on your computer.
+Make sure you have Python 3.8 or higher installed.
 
 ### Step 2: Install Dependencies
-Open terminal in this folder and run:
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Step 3: Run the App
-In terminal, type:
 ```bash
 streamlit run app.py
 ```
 
-The app will open in your web browser automatically!
+The app will open in your browser automatically!
 
-## How to Use the App
+## Features
 
-1. Use the **sidebar** on the left to add cryptocurrencies
-2. Choose a coin from the dropdown
-3. Enter how many coins you own
-4. Click "Add to Portfolio"
-5. See your portfolio value and risk levels!
+### Core Features
+- User authentication (login/signup with hashed passwords)
+- Buy/sell transaction tracking with date stamps
+- Real-time portfolio valuation using CoinGecko API
+- Cost basis and average cost per coin calculation
+- Profit/Loss per asset and total portfolio
+- Support for 20+ cryptocurrencies
 
-## Project Features
+### Analytics Dashboard
+- Portfolio summary metrics (total value, cost, P/L)
+- Asset allocation pie chart
+- Profit/Loss bar chart by asset
+- Price history timeline charts (7/14/30/90 days)
+- Holdings value comparison chart
+- Bitcoin benchmark comparison chart
 
-✅ Real-time cryptocurrency prices (CoinGecko API)  
-✅ Simple risk calculation (Low/Medium/High based on volatility)  
-✅ Bitcoin benchmark comparison  
-✅ Clean, easy-to-use interface  
+### Risk Analysis
+- Portfolio risk score (0-100 scale using weighted volatility)
+- Individual asset risk levels (Low/Medium/High)
+- Value at Risk (VaR) at 95% confidence
+- Diversification score using HHI concentration index
+- Automated recommendations based on risk and diversification
+
+### Data Export
+- Portfolio holdings CSV export
+- Transaction history CSV export
+- Text-based portfolio report
 
 ## Technical Details
 
 - **Language**: Python 3
-- **Framework**: Streamlit (for web interface)
+- **Framework**: Streamlit (web interface)
 - **API**: CoinGecko (free, no API key needed)
-- **Data**: Pandas (for organizing data)
+- **Charts**: Plotly (interactive visualizations)
+- **Data**: Pandas (data organization)
+- **Storage**: JSON files (user data and portfolio)
+
+## Risk Calculation Methodology
+
+The risk assessment uses statistical analysis of price volatility:
+
+- **Risk Score**: Weighted portfolio volatility mapped to 0-100 scale
+  - Each coin's weight = its value / total portfolio value
+  - Weighted volatility = sum of (weight × coin volatility) for all coins
+- **Risk Levels**: Low (<30), Medium (30-60), High (>60)
+- **Value at Risk**: VaR = Portfolio Value × Z-score (1.645) × Weighted Volatility
+- **Diversification**: Herfindahl-Hirschman Index (HHI) converted to 0-100 score
 
 ## Notes for Presentation
 
-- This is a **web application** that works on any device with a browser
-- The risk calculation uses **24-hour price volatility**:
-  - Less than 3% change = Low Risk
-  - 3-7% change = Medium Risk
-  - More than 7% change = High Risk
-- Bitcoin comparison shows if your portfolio beats the market benchmark
-
-## Future Improvements (Optional)
-
-- Add historical price charts
-- Save portfolio data to a file
-- Add more cryptocurrencies
-- Create profit/loss calculations
+- The "AI/ML" component is the risk scoring algorithm using statistical calculations
+- The app uses weighted volatility analysis, not actual machine learning models
+- Bitcoin comparison shows if portfolio beats the market benchmark (24h change)
+- All prices come from CoinGecko's free API with caching to reduce API calls
 
 ---
 
 **Created for**: Graduation Capstone Project  
 **Semester**: Spring 2026  
-**Timeline**: 16 weeks
+**Timeline**: 16 weeks (January 23 - May 9, 2026)

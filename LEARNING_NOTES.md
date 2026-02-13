@@ -1,77 +1,98 @@
-# Test Your Understanding - Simple Quiz
+# Understanding the Code - Study Guide
 
-## Questions About the Code
+## Project Structure
 
-### 1. What does `get_crypto_price()` function do?
-- It connects to CoinGecko API
-- Gets the current price of a cryptocurrency
-- Also gets the 24-hour price change
-- Returns both values
+The project is split into separate files so each file handles one thing:
 
-### 2. How does the Risk Calculator work?
+| File | What It Does |
+|------|-------------|
+| `app.py` | Main UI - what the user sees (tabs, buttons, layout) |
+| `auth.py` | Login and signup - checking passwords |
+| `api_handler.py` | Gets crypto prices from CoinGecko API |
+| `portfolio.py` | Manages portfolio data - buy/sell, cost basis, P/L |
+| `risk_analysis.py` | All the risk math - scores, VaR, diversification |
+| `analytics.py` | Creates all the charts using Plotly |
+| `export_handler.py` | Exports data to CSV files |
+
+## Key Concepts
+
+### 1. How Transactions Work (portfolio.py)
+When you buy or sell crypto, it gets saved as a transaction. The portfolio is recalculated from ALL transactions every time:
+
 ```python
-def calculate_risk(volatility):
-    abs_volatility = abs(volatility)  # Get absolute value (remove negative sign)
-    
-    if abs_volatility < 3:
-        return "Low Risk"
-    elif abs_volatility < 7:
-        return "Medium Risk"
-    else:
-        return "High Risk"
+# Example: Buy 2 Bitcoin at $50,000 each
+transaction = {
+    'type': 'buy',
+    'coin_name': 'Bitcoin',
+    'amount': 2,
+    'price_per_coin': 50000,
+    'total_cost': 100000  # 2 × $50,000
+}
 ```
 
-**Example**: If Bitcoin changed by -5% in 24 hours:
-- abs(-5) = 5
-- 5 is between 3 and 7
-- So it's "Medium Risk"
+### 2. Cost Basis Calculation
+Cost basis = total money you spent buying a coin
+Average cost = total cost / amount of coins you have
 
-### 3. What is `st.session_state.portfolio`?
-- It's like a memory box that stores your portfolio data
-- When you add coins, they go here
-- When you refresh the page, they stay here (during that session)
+If you bought 2 BTC at $50,000 and 1 BTC at $60,000:
+- Total cost = $100,000 + $60,000 = $160,000
+- Total coins = 3
+- Average cost = $160,000 / 3 = $53,333.33
 
-### 4. What does this line do?
+### 3. Risk Score (risk_analysis.py)
+The risk score uses weighted volatility:
+
 ```python
-total_value += value
+# For each coin in portfolio:
+weight = coin_value / total_portfolio_value
+weighted_volatility += weight * abs(coin_24h_change)
+
+# Map to 0-100 score
+risk_score = weighted_volatility / 15 * 100
 ```
-- `+=` means "add to existing value"
-- It's the same as: `total_value = total_value + value`
-- It adds up all your coin values to get total portfolio value
 
-## Key Python Concepts Used
+**Example**: Portfolio has 60% Bitcoin (3% change) and 40% Ethereum (5% change)
+- Weighted vol = 0.60 × 3 + 0.40 × 5 = 1.8 + 2.0 = 3.8
+- Risk score = 3.8 / 15 × 100 = 25.3 (Low Risk)
 
-1. **Functions**: Reusable blocks of code
-   - `def function_name():`
-   - Makes code organized and easy to read
+### 4. Value at Risk (VaR)
+VaR answers: "What's the most I could lose in one day (95% confidence)?"
 
-2. **Dictionaries**: Store data with names
-   - `{'name': 'Bitcoin', 'price': 50000}`
-   - Like a real dictionary: word → definition
+```python
+VaR = portfolio_value × 1.645 × weighted_volatility
+```
 
-3. **Lists**: Store multiple items
-   - `[item1, item2, item3]`
-   - Can add items: `list.append(new_item)`
+The 1.645 is the z-score for 95% confidence (from statistics).
 
-4. **If/Elif/Else**: Make decisions
-   - If this is true, do this
-   - Else if that is true, do that
-   - Otherwise, do something else
+### 5. Diversification Score
+Uses the Herfindahl-Hirschman Index (HHI):
+- If one coin = 100% of portfolio → HHI = 1 (bad)
+- If 4 coins = 25% each → HHI = 0.25 (good)
 
-5. **Loops**: Repeat actions
-   - `for coin in portfolio:` means "for each coin in portfolio"
-   - Does something with each coin
+We convert this to a 0-100 score where higher = better diversified.
 
-## Practice Exercise
+### 6. API Caching (api_handler.py)
+We save prices to a file so we don't call the API too much:
+```python
+# Before calling API, check if we have a recent price saved
+if price was saved less than 60 seconds ago:
+    use the saved price  # faster, no API call needed
+else:
+    call the API and save the new price
+```
 
-Try modifying the risk levels:
-- Change `< 3` to `< 5` for Low Risk
-- Change `< 7` to `< 10` for Medium Risk
-- See how it changes the risk assessment!
+### 7. Password Hashing (auth.py)
+We don't store passwords as plain text. We hash them:
+```python
+# "password123" becomes "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+# You can't reverse a hash back to the original password
+```
 
 ## Tips for Your Presentation
 
-1. **Explain the API**: "We use CoinGecko's free API to get real-time prices"
-2. **Explain the Risk Calculation**: "We look at 24-hour price changes to determine volatility"
-3. **Explain the Benchmark**: "We compare your portfolio's average change to Bitcoin"
-4. **Keep it Simple**: Don't try to sound super technical - just explain what it does!
+1. **Explain the file structure**: "I organized the code into modules for maintainability"
+2. **Explain the risk calculation**: "We use weighted volatility across all holdings"
+3. **Explain VaR**: "Value at Risk tells us worst-case daily loss at 95% confidence"
+4. **Explain the benchmark**: "We compare portfolio's average 24h change to Bitcoin's"
+5. **Be honest**: This uses statistical analysis, not actual AI/ML models
+6. **Show the charts**: The interactive Plotly charts are impressive for a demo
