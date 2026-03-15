@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState, useCallback } from 'react';
 import { View, Text, ScrollView, StyleSheet, RefreshControl, TouchableOpacity, TextInput, Modal, Alert, ActivityIndicator, FlatList } from 'react-native';
 import { useFocusEffect } from 'expo-router';
@@ -42,7 +43,7 @@ export default function Transactions() {
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor={C.accent} />}>
         <View style={s.header}><Text style={s.pageTitle}>Transactions</Text><TouchableOpacity style={s.addBtn} onPress={openModal}><Text style={{ color:'#fff', fontWeight:'800' }}>+ Add</Text></TouchableOpacity></View>
         {txs.length === 0 ? (
-          <View style={s.empty}><Text style={{ fontSize:48 }}>📋</Text><Text style={{ color:C.text, fontSize:16, fontWeight:'700', marginTop:12 }}>No transactions yet</Text><Text style={{ color:C.sub, marginTop:6 }}>Tap + Add to record your first trade</Text></View>
+          <View style={s.empty}><Text style={{ fontSize:48 }}></Text><Text style={{ color:C.text, fontSize:16, fontWeight:'700', marginTop:12 }}>No transactions yet</Text><Text style={{ color:C.sub, marginTop:6 }}>Tap + Add to record your first trade</Text></View>
         ) : txs.map(tx => (
           <View key={tx.id} style={s.card}>
             <View style={{ flexDirection:'row', alignItems:'center' }}>
@@ -55,7 +56,7 @@ export default function Transactions() {
                 <Text style={{ color:C.text, fontWeight:'700' }}>{tx.amount} {tx.coinSymbol}</Text>
                 <Text style={{ color:C.sub, fontSize:12 }}>@ ${tx.price.toLocaleString()}</Text>
               </View>
-              <TouchableOpacity onPress={() => del(tx.id)} style={{ marginLeft:12 }}><Text style={{ color:C.red, fontSize:18 }}>🗑</Text></TouchableOpacity>
+              <TouchableOpacity onPress={() => del(tx.id)} style={{ marginLeft:12 }}><Text style={{ color:C.red, fontSize:18 }}></Text></TouchableOpacity>
             </View>
           </View>
         ))}
@@ -85,7 +86,7 @@ export default function Transactions() {
               </>
             ) : (
               <>
-                <TouchableOpacity onPress={() => setSelected(null)} style={{ marginBottom:16 }}><Text style={{ color:C.accent }}>← Change coin</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => setSelected(null)} style={{ marginBottom:16 }}><Text style={{ color:C.accent }}> Change coin</Text></TouchableOpacity>
                 <View style={[s.coinRow, { backgroundColor:C.card, borderRadius:12, marginBottom:16 }]}>
                   <View style={[s.symBox, { width:36, height:36, marginRight:12 }]}><Text style={{ color:C.accent, fontWeight:'800', fontSize:10 }}>{selected.symbol?.toUpperCase().slice(0,4)}</Text></View>
                   <Text style={{ color:C.text, flex:1, fontWeight:'700', fontSize:16 }}>{selected.name}</Text>

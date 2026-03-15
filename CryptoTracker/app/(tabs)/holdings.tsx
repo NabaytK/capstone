@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState, useCallback } from 'react';
 import { View, Text, ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import { useFocusEffect } from 'expo-router';
@@ -32,7 +33,7 @@ export default function Holdings() {
         <View style={[s.summaryItem, { borderLeftWidth:1, borderLeftColor:C.border }]}><Text style={s.summaryLbl}>Total P/L</Text><Text style={[s.summaryVal, { color: totals.totalPL >= 0 ? C.green : C.red }]}>{totals.totalPL >= 0 ? '+' : '-'}{fmt(Math.abs(totals.totalPL))}</Text></View>
       </View>
       {holdings.length === 0 ? (
-        <View style={s.center}><Text style={{ fontSize:48 }}>💰</Text><Text style={{ color:C.text, fontSize:16, fontWeight:'700', marginTop:12 }}>No holdings yet</Text><Text style={{ color:C.sub, marginTop:6 }}>Add transactions to see your holdings</Text></View>
+        <View style={s.center}><Text style={{ fontSize:48 }}></Text><Text style={{ color:C.text, fontSize:16, fontWeight:'700', marginTop:12 }}>No holdings yet</Text><Text style={{ color:C.sub, marginTop:6 }}>Add transactions to see your holdings</Text></View>
       ) : holdings.map(h => {
         const risk = getCoinRisk(h.change24h);
         const alloc = totals.totalValue > 0 ? (h.currentValue / totals.totalValue) * 100 : 0;
@@ -41,7 +42,7 @@ export default function Holdings() {
             <View style={s.cardTop}>
               <View style={s.symBox}><Text style={s.sym}>{h.coinSymbol}</Text></View>
               <View style={{ flex:1 }}><Text style={s.coinName}>{h.coinName}</Text><Text style={s.coinAmt}>{h.totalAmount.toFixed(6)} coins</Text></View>
-              <View style={{ alignItems:'flex-end' }}><Text style={s.coinVal}>{fmt(h.currentValue)}</Text><Text style={{ color: h.change24h >= 0 ? C.green : C.red, fontSize:12, fontWeight:'600' }}>{h.change24h >= 0 ? '▲' : '▼'} {Math.abs(h.change24h).toFixed(2)}%</Text></View>
+              <View style={{ alignItems:'flex-end' }}><Text style={s.coinVal}>{fmt(h.currentValue)}</Text><Text style={{ color: h.change24h >= 0 ? C.green : C.red, fontSize:12, fontWeight:'600' }}>{h.change24h >= 0 ? '' : ''} {Math.abs(h.change24h).toFixed(2)}%</Text></View>
             </View>
             <View style={s.grid}>
               <GridItem label="Price" value={'$'+h.currentPrice.toLocaleString('en-US',{maximumFractionDigits:4})} />
