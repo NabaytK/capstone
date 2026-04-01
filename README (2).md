@@ -5,7 +5,7 @@ A cryptocurrency portfolio management application with risk analysis, performanc
  Project Structure
 
 
-crypto_coin/
+##crypto_coin/
 ├── app.py              # Main entry point (routing + sidebar only)
 ├── auth.py             # Authentication (email, salted PBKDF2 hashing, sessions)
 ├── api_handler.py      # CoinGecko API integration with caching
