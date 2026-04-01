@@ -1,10 +1,10 @@
-# 🪙 Crypto Coin - Graduation Capstone Project
+ Crypto Coin - Graduation Capstone Project
 
 A cryptocurrency portfolio management application with risk analysis, performance tracking, and Bitcoin benchmark comparison.
 
-## Project Structure
+ Project Structure
 
-```
+
 crypto_coin/
 ├── app.py              # Main entry point (routing + sidebar only)
 ├── auth.py             # Authentication (email, salted PBKDF2 hashing, sessions)
@@ -19,53 +19,51 @@ crypto_coin/
 └── .gitignore
 ```
 
-## How to Run
+ How to Run
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Features
+ Features
 
-### Authentication
+ Authentication
 - Email-based registration with validation
 - PBKDF2-SHA256 password hashing with random salt (100,000 iterations)
 - Password strength requirements and visual indicator
 - Confirm password field
 - Session token management
 
-### Portfolio Management
+ Portfolio Management
 - Buy/sell transaction tracking with timestamps
 - Cost basis and average cost per coin
 - Profit/Loss per asset and total
 - Support for 22 cryptocurrencies
 
-### Analytics Dashboard
+ Analytics Dashboard
 - Asset allocation donut chart
 - Profit/Loss bar chart
 - Bitcoin benchmark comparison
 - Price history timeline (7/14/30/90 days)
 - Live market overview with top 10 coins
 
-### Risk Analysis
+ Risk Analysis
 - Weighted portfolio risk score (0-100)
 - Value at Risk (VaR) at 95% confidence
 - Diversification score (HHI-based)
 - Per-asset risk levels
 - Automated recommendations
 
-### Data Export
+ Data Export
 - Portfolio CSV, Transactions CSV, Full text report
 
-## Technical Details
+ Technical Details
 
-- **Language**: Python 3
-- **Framework**: Streamlit
-- **API**: CoinGecko (free, no key needed)
-- **Charts**: Plotly
-- **Storage**: JSON files with hashed passwords
+- Language: Python 3
+- Framework: Streamlit
+- API: CoinGecko (free, no key needed)
+- Charts: Plotly
+- Storage: JSON files with hashed passwords
 
----
 
-**Capstone Project** · Spring 2026 · 16 Weeks
